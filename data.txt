@@ -32,6 +32,7 @@ Telephone
 assigned_to_client : fk -> Client
 status : active , free
 device_name: str -> Telephone Name
+tel_mac : str -> Telephone MAC Address
 code : fk -> Code
 extention_number : fk -> did
 description : text_field -> Additional info/client_code
