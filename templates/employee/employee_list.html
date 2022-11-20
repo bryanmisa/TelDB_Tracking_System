@@ -1,0 +1,157 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+
+
+{% load widget_tweaks %}
+
+
+<section class="section dashboard">
+    <form method="get">
+
+        <div class="well">
+            <h4 style="margin-top: 0">Search for...</h4>
+            <button type="submit" class="btn btn-primary btn-sm">Search</button>
+            <a class="btn btn-warning btn-sm" href="{% url 'employee_list' %}">Reset</a>
+            <div class="row">
+                <div class="form-group col-sm-4 col-md-3">
+                    {{ filterset.form.employee_number.label}}
+                    {% render_field filterset.form.employee_number class="form-control" %}
+                </div>
+                <div class="form-group col-sm-4 col-md-3">
+                    {{ filterset.form.employee_name.label}}
+                    {% render_field filterset.form.employee_name class="form-control" %}
+                </div>
+                <div class="form-group col-sm-4 col-md-3">
+                    {{ filterset.form.department.label}}
+                    {% render_field filterset.form.department class="form-control" %}
+                </div>
+                <div class="form-group col-sm-4 col-md-3">
+                    {{ filterset.form.organization.label}}
+                    {% render_field filterset.form.organization class="form-control" %}
+                </div>
+                <div class="form-group col-sm-4 col-md-3">
+                    {{ filterset.form.location.label}}
+                    {% render_field filterset.form.location class="form-control" %}
+                </div>
+                <div class="form-group col-sm-4 col-md-3">
+                    {{ filterset.form.employee_category.label}}
+                    {% render_field filterset.form.employee_category class="form-control" %}
+                </div>
+                <div class="form-group col-sm-4 col-md-3">
+                    {{ filterset.form.employee_status.label}}
+                    {% render_field filterset.form.employee_status class="form-control" %}
+                </div>
+            </div>
+    </form>
+
+
+    <br>
+
+    <div class="row">
+        <!-- Left side columns -->
+        <div class="col-lg-12">
+            <div class="row">
+                <!-- Top content -->
+                <div class="col-12">
+                    <div class="card top-selling overflow-auto">
+
+                        <div class="card-body pb-0">
+                            <h5 class="card-title">Employee List</span> </h5>
+                            <a class="btn btn-primary btn-sm" href="{% url 'employee_create' %}">New
+                                Employee</a>
+                            <br />
+                            <br />
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Employee Number</th>
+                                        <th scope="col">Employee Name</th>
+                                        <th scope="col">Department</th>
+                                        <th scope="col">Organization</th>
+                                        <th scope="col">Employee Category</th>
+                                        <th scope="col">Update</th>
+                                        <th scope="col">Delete</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for employee in employees %}
+                                    <tr>
+                                        <th scope="row">
+                                            {{employee.employee_number}}
+                                        </th>
+                                        <th scope="row">
+                                            {{employee.employee_name}}
+                                        </th>
+                                        <th scope="row">
+                                            {{employee.department}}
+                                        </th>
+                                        <th scope="row">
+                                            {{employee.organization}}
+                                        </th>
+                                        <th scope="row">
+                                            {{employee.employee_category}}
+                                        </th>
+
+
+                                        <td><a class="btn btn-info btn-sm"
+                                                href="{% url 'employee_update' employee.id %}">Update
+                                            </a></td>
+                                        <td><a class="btn btn-danger btn-sm"
+                                                href="{% url 'employee_delete' employee.id %}">Delete</a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                    </div>
+                </div>
+                <!-- End of content -->
+            </div>
+        </div>
+        <!--Pagination-->
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link"
+                        href="?{{ request.GET.urlencode }}&page={{ page_obj.previous_page_number }}">Previous</a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="True">Previous</a>
+                </li>
+                {% endif %}
+                {% for i in page_obj.paginator.page_range %}
+                {% if page_obj.number == i %}
+                <li class="page-item active" aria-current="page">
+                    <span class="page-link">
+                        {{ i }}
+                        <span class="sr-only">(current)</span>
+                    </span>
+                </li>
+                {% else %}
+                <li class="page-item"><a class="page-link" href="?{{ request.GET.urlencode }}&page={{ i }}">{{ i }}</a>
+                </li>
+                {% endif %}
+                {% endfor %}
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link"
+                        href="?{{ request.GET.urlencode }}&page={{ page_obj.next_page_number }}">Next</a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="True">Next</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+</section>
+
+
+{% endblock content %}

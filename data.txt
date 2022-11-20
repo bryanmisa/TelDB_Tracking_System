@@ -1,0 +1,39 @@
+Location
+location_name : str
+
+Department:
+department_name : str
+
+Company:
+company_name : str
+
+Client:
+client_name : str
+department : fk -> Department
+location : fk -> Location
+company : fk -> Company
+
+Code
+code_label : str
+
+Device Type
+device_type : str
+
+Direct Inward Dialing (DID)
+---------------------------
+voip_number : int -> Extenstion No.
+
+connection_date : date_field
+notes : text_field -> Additional info
+
+
+Telephone
+-------------------
+assigned_to_client : fk -> Client
+status : active , free
+device_name: str -> Telephone Name
+code : fk -> Code
+extention_number : fk -> did
+description : text_field -> Additional info/client_code
+
+

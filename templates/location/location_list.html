@@ -1,0 +1,115 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+
+{{ form.media.css }}
+
+{% load widget_tweaks %}
+
+<section class="section dashboard">
+
+    <form method="get">
+
+        <div class="well">
+            <h4 style="margin-top: 0">Search for...</h4>
+            <button type="submit" class="btn btn-primary btn-sm">Search</button>
+            <a class="btn btn-warning btn-sm" href="{% url 'location_list' %}">Reset</a>
+            <br>
+            <br>
+            <div class="row">
+                <div class="form-group col-sm-4 col-md-3">
+                    {{ filterset.form.location_name.label}}
+                    {% render_field filterset.form.location_name class="form-control" %}
+                </div>
+            </div>
+    </form>
+    <br>
+    <div class="row">
+        <!-- Left side columns -->
+        <div class="col-lg-6">
+            <div class="row">
+                <!-- Top content -->
+                <div class="col-12">
+                    <div class="card top-selling overflow-auto">
+
+                        <div class="card-body pb-0">
+                            <h5 class="card-title">Location List</span> </h5>
+                            <a class="btn btn-primary btn-sm" href="{% url 'location_create' %}">New
+                                Location</a>
+
+                            <table class="table table-borderless">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Location Name</th>
+                                        <th scope="col">Update</th>
+                                        <th scope="col">Delete</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for location in locations %}
+                                    <tr>
+                                        <th scope="row">
+                                            {{location.location_name}}
+                                        </th>
+                                        <td><a class="btn btn-info btn-sm"
+                                                href="{% url 'location_update' location.id %}">Update
+                                            </a></td>
+                                        <td><a class="btn btn-danger btn-sm"
+                                                href="{% url 'location_delete' location.id %}">Delete</a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                    </div>
+                </div>
+                <!-- End of content -->
+            </div>
+        </div>
+        <!--Pagination-->
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link"
+                        href="?{{ request.GET.urlencode }}&page={{ page_obj.previous_page_number }}">Previous</a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="True">Previous</a>
+                </li>
+                {% endif %}
+                {% for i in page_obj.paginator.page_range %}
+                {% if page_obj.number == i %}
+                <li class="page-item active" aria-current="page">
+                    <span class="page-link">
+                        {{ i }}
+                        <span class="sr-only">(current)</span>
+                    </span>
+                </li>
+                {% else %}
+                <li class="page-item"><a class="page-link" href="?{{ request.GET.urlencode }}&page={{ i }}">{{ i }}</a>
+                </li>
+                {% endif %}
+                {% endfor %}
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link"
+                        href="?{{ request.GET.urlencode }}&page={{ page_obj.next_page_number }}">Next</a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="True">Next</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+
+    </div>
+</section>
+
+
+{% endblock content %}

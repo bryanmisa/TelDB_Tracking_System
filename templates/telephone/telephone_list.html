@@ -1,0 +1,190 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+
+{{ form.media.css }}
+
+{% load widget_tweaks %}
+
+<section class="section dashboard">
+
+    <form method="get">
+
+        <div class="well">
+            <h4 style="margin-top: 0">Search for...</h4>
+            <button type="submit" class="btn btn-primary btn-sm">Search</button>
+            <a class="btn btn-warning btn-sm" href="{% url 'telephone_list' %}">Reset</a>
+
+            <div class="row">
+                <div class="form-group col-sm-4 col-md-3">
+                    {{ filterset.form.mac_address.label}}
+                    {% render_field filterset.form.mac_address class="form-control" %}
+                </div>
+                <div class="form-group col-sm-4 col-md-3">
+                    {{ filterset.form.device_name.label}}
+                    {% render_field filterset.form.device_name class="form-control" %}
+                </div>
+                <div class="form-group col-sm-4 col-md-3">
+                    {{ filterset.form.telephone_device_type.label}}
+                    {% render_field filterset.form.telephone_device_type class="form-control" %}
+                </div>
+                <div class="form-group col-sm-4 col-md-3">
+                    {{ filterset.form.assigned_to.label}}
+                    {% render_field filterset.form.assigned_to class="form-control" %}
+                </div>
+                <div class="form-group col-sm-4 col-md-3">
+                    {{ filterset.form.assigned_to__organization.label}}
+                    {% render_field filterset.form.assigned_to__organization class="form-control" %}
+                </div>
+                <div class="form-group col-sm-4 col-md-3">
+                    {{ filterset.form.connection_date.label}}
+                    {% render_field filterset.form.connection_date class="form-control" %}
+                </div>
+                <div class="form-group col-sm-4 col-md-3">
+                    {{ filterset.form.disconnection_date.label}}
+                    {% render_field filterset.form.disconnection_date class="form-control" %}
+                </div>
+                <div class="form-group col-sm-4 col-md-3">
+                    {{ filterset.form.extension_number.label}}
+                    {% render_field filterset.form.extension_number class="form-control" %}
+                </div>
+                <div class="form-group col-sm-4 col-md-3">
+                    {{ filterset.form.assigned_to__department__code__code.label}}
+                    {% render_field filterset.form.assigned_to__department__code__code class="form-control" %}
+                </div>
+                <div class="form-group col-sm-4 col-md-3">
+                    {{ filterset.form.status.label}}
+                    {% render_field filterset.form.status class="form-control" %}
+                </div>
+
+            </div>
+        </div>
+
+
+    </form>
+
+    <br>
+    <div class="row">
+        <!-- Left side columns -->
+        <div class="col-lg-12">
+            <div class="row">
+                <!-- Top content -->
+                <div class="col-12">
+                    <div class="card top-selling overflow-auto">
+
+                        <div class="card-body pb-0">
+                            <h5 class="card-title">Telephone List</span> </h5>
+                            <a class="btn btn-primary btn-sm" href="{% url 'telephone_create' %}">New
+                                Telephone</a>
+                            <br />
+                            <br />
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Device Name</th>
+                                        <th scope="col">Telephone Status</th>
+                                        <th scope="col">Device Type</th>
+                                        <th scope="col">Code</th>
+                                        <th scope="col">Desc1</th>
+                                        <th scope="col">Description</th>
+                                        <th scope="col">Organization</th>
+                                        <th scope="col">Assigned to</th>
+                                        <th scope="col">DID Status</th>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for telephone in telephones %}
+                                    <tr>
+                                        <td><a
+                                                href="{% url 'telephone_details' telephone.id %}">{{telephone.device_name}}</a>
+                                        </td>
+                                        <td>{{telephone.status}}</td>
+                                        <td>{{telephone.telephone_device_type}}</td>
+                                        <td>
+                                            {{telephone.assigned_to.department.code}}</td>
+                                        <td>
+                                            {% if telephone.assigned_to == None %}
+                                            &nbsp;
+                                            {% else %}
+                                            {{telephone.assigned_to.department.code}}-{{telephone.extension_number}}
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                        {% if telephone.assigned_to == None %}
+                                        &nbsp;
+                                        {% else %}
+                                        {{telephone.assigned_to.organization}}-{{telephone.extension_number}}
+                                        {% endif %}
+                                        </td>
+                                        <td>{{telephone.assigned_to.organization}}</td>
+                                        <td>{% if telephone.assigned_to == None %}
+                                            &nbsp;
+                                            {% else %}
+                                            {{telephone.assigned_to}}
+                                            {% endif %}
+                                        </td>
+                                      
+                                        <td>{{telephone.extension_number.status}}</td>
+                                        
+
+
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                    </div>
+                </div>
+                <!-- End of content -->
+            </div>
+        </div>
+
+        <!--Pagination-->
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link"
+                        href="?{{ request.GET.urlencode }}&page={{ page_obj.previous_page_number }}">Previous</a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="True">Previous</a>
+                </li>
+                {% endif %}
+                {% for i in page_obj.paginator.page_range %}
+                {% if page_obj.number == i %}
+                <li class="page-item active" aria-current="page">
+                    <span class="page-link">
+                        {{ i }}
+                        <span class="sr-only">(current)</span>
+                    </span>
+                </li>
+                {% else %}
+                <li class="page-item"><a class="page-link" href="?{{ request.GET.urlencode }}&page={{ i }}">{{ i }}</a>
+                </li>
+                {% endif %}
+                {% endfor %}
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link"
+                        href="?{{ request.GET.urlencode }}&page={{ page_obj.next_page_number }}">Next</a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="True">Next</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+
+    </div>
+</section>
+
+
+
+
+{% endblock content %}

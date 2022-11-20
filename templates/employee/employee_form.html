@@ -1,0 +1,56 @@
+{% extends 'base/base.html' %} {% block content %} {% load static %}{% load crispy_forms_tags %}
+{{ form.media.css }}
+<section class="section">
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Employee Form</h5>
+
+          <!-- Horizontal Form -->
+          <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% if form.errors %}
+            <div class="alert alert-danger">
+              {{ form.errors }}
+            </div>
+            {% endif %}
+            <div class="row mb-3">
+              {{form.employee_name.label}} {{ form.employee_name}}
+            </div>
+            <div class="row mb-3">
+              {{form.employee_number.label}} {{ form.employee_number}}
+            </div>
+            <div class="row mb-3">
+              {{form.department.label}} : {{form.department}}
+            </div>
+            <div class="row mb-3">
+              {{form.location.label}} : {{form.location}}
+            </div>
+            <div class="row mb-3">
+              {{form.employee_status.label}} : {{form.employee_status}}
+            </div>
+            <div class="row mb-3">
+              {{form.organization.label}} : {{form.organization}}
+            </div>
+            <div class="row mb-3">
+              {{form.employee_category.label}} : {{form.employee_category}}
+            </div>
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+              <a class="btn btn-primary btn-sm" href=" {% url 'employee_list' %} ">Cancel</a>
+            </div>
+          </form>
+          <!-- End Horizontal Form -->
+        </div>
+      </div>
+
+      <!-- End floating Labels Form -->
+    </div>
+  </div>
+  </div>
+  </div>
+</section>
+<script src="{% static 'assets/jquery/jquery.min.js' %} "></script>
+{{ form.media.js }}
+{% endblock content %}

@@ -1,0 +1,38 @@
+{% extends 'base/base.html' %} {% block content %}
+{% load crispy_forms_tags %}
+<section class="section">
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Employee Form</h5>
+
+          <!-- Horizontal Form -->
+          <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row mb-3">
+              {{form.did.label}} : {{ form.did}}
+            </div>
+            <div class="row mb-3">
+              {{form.status.label}} : {{ form.status }}
+            </div>
+
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary">Submit</button>
+              <button type="reset" class="btn btn-secondary">Reset</button>
+            </div>
+          </form>
+          <!-- End Horizontal Form -->
+        </div>
+      </div>
+
+      <!-- End floating Labels Form -->
+    </div>
+  </div>
+  </div>
+  </div>
+</section>
+
+</form>
+
+{% endblock content %}

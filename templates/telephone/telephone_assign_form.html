@@ -1,0 +1,43 @@
+{% extends 'base/base.html' %} {% block content %} {% load static %} {% load crispy_forms_tags %}
+{{ form.media.css }}
+<section class="section">
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Telephone</h5>
+
+          <!-- Horizontal Form -->
+          <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% if form.errors %}
+            <div class="alert alert-danger">
+              {{ form.errors }}
+            </div>
+            {% endif %}
+            <div class="row mb-3">
+              {{form.extension_number.label}} {{form.extension_number}}
+            </div>
+            <div class="row mb-3">
+              {{form.assigned_to.label}}
+              {{form.assigned_to}}
+            </div>
+
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+              <a class="btn btn-primary btn-sm" href=" {% url 'telephone_details' telephone.id %} ">Back</a>
+            </div>
+          </form>
+          <!-- End Horizontal Form -->
+        </div>
+      </div>
+
+      <!-- End floating Labels Form -->
+    </div>
+  </div>
+  </div>
+  </div>
+</section>
+<script src="{% static 'assets/jquery/jquery.min.js' %} "></script>
+{{ form.media.js }}
+{% endblock content %}

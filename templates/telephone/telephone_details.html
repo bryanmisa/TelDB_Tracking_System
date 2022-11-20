@@ -1,0 +1,69 @@
+{% extends 'base/base.html' %} {% block content %} {% load crispy_forms_tags %}
+
+<section class="section">
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Telephone Details</h5>
+
+          <!-- Horizontal Form -->
+          <div class="row mb-3">
+            Telephone MAC Address :
+            <br />{{telephone.mac_address}}
+          </div>
+          <div class="row mb-3">
+            Telephone Device Name:
+            <br />
+            {{telephone.device_name}}
+          </div>
+          <div class="row mb-3">
+            Telephone Device Type:
+            <br />
+            {{telephone.telephone_device_type}}
+          </div>
+          <div class="row mb-3">
+            Telephone Extension Number:
+            <br />
+            {{telephone.extension_number}}
+          </div>
+
+          <div class="row mb-3">
+            <strong>Assigned Employee Details</strong>
+            Employee Name: {{telephone.assigned_to}}
+            <br />
+            Organization : {{telephone.assigned_to.organization}}
+            <br />
+            Department : {{telephone.assigned_to.department}}
+            <br />
+            Code: {{telephone.assigned_to.department.code}}
+          </div>
+
+          <a class="btn btn-info btn-sm" href="{% url 'assign_telephone' telephone.id %}">Assign To
+          </a>
+
+          <a class="btn btn-warning btn-sm" href="{% url 'put_telephone_instock' telephone.id %}">Put Telephone In Stock
+          </a>
+
+          <a class="btn btn-danger btn-sm" href="{% url 'telephone_delete' telephone.id %}">Delete</a>
+          <!-- End floating Labels Form -->
+          <br>
+          <br>
+          {% if telephone.assigned_to == None %} {% else %}
+          <a class="btn btn-primary btn-sm" href="{% url 'export_telephone_profile' telephone.id %}">Export Telephone
+            Profile</a>
+
+          {% endif %}
+
+          {% if telephone.assigned_to == None %} {% else %}
+          <a class="btn btn-info btn-sm" href="{% url 'export_device_profile' telephone.id %}">Export Device
+            Profile</a>
+
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock content %}

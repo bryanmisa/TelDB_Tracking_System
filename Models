@@ -1,0 +1,58 @@
+Models
+
+
+Location
+========
+location_name : str
+
+Code
+====
+code_name : str
+
+Organization
+============
+oganization_name : str
+
+
+DeviceType
+===========
+device_type : str
+
+Department
+==========
+department_name : str
+organization : fk -> Organization
+location : fk -> Location
+
+EmployeeCategory
+==================
+employee_category = str
+
+Employee
+========
+employee_number : str
+employee_name : str
+department : fk -> Department # should show the organization and location
+employee_category : fk -> EmployeeCategory
+employee_status : choices -> active , inactive
+
+DirectInwardDialing
+====
+did_number : int
+did_status : free, engaged
+
+TELEPHONE
+==========
+mac_address : str
+device_name : str
+device_type : fk -> DEVICETYPE
+code : fk -> Code
+extension_number : fk -> DirectInwardDialing
+device_description : str -> code + extension_number 
+company : fk -> Company
+employee : fk-> Employee
+connection_date : date_field
+disconnection_date : date_field
+telephone_status : choices -> Assigned, Instock , In Repair, Disposed
+
+
